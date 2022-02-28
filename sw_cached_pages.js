@@ -7,7 +7,12 @@ const cacheAssets = [
     'js/main.js'
 ]
 console.log("SW: Outer Space");
-self.addEventListener("install", async e =>{
+
+// Two events listened upon, 'install' and 'fetch'
+// At install local assets are stored to cache.  Removed, Xinstall non existent
+// Upon fetch, it returns to the fetch caller the cached item if there or it returns the remote page.
+
+self.addEventListener("Xinstall", async e =>{
   console.log("SW: the 'install' Listener."); // need preserve log to se it
   self.skipWaiting();              // forces the waiting service worker to become the active service worker.  Can ignore returned promise (undef)
   // prevents other newly installed SW from being stuck in a wait.
@@ -20,7 +25,7 @@ self.addEventListener("install", async e =>{
 
 self.addEventListener("fetch", e => {  try {
   console.log("SW: fetch listener, event:", e.request);
-  e.respondWith(getCacheOrPage(e));
+  e.respondWith(getCacheOrRemotePage(e));
    } catch(e) { console.log("Error:",e); }
 });
 
@@ -32,7 +37,7 @@ async function saveToCache() { try {
   }catch(e) {console.log("Error saveToCache",e);}
 }
 
-async function getCacheOrPage(e) {
+async function getCacheOrRemotePage(e) {
   console.log("SW: e.respondWith.");
   let resp_cached = await caches.match(e.request);              // devtools, tic offline in sws area to test.
 
