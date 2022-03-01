@@ -6,31 +6,31 @@ const cacheAssets = [
     '/css/style.css',
     'js/main.js'
 ]
-console.log("SW: Outer Space");
+// console.log("SW: Outer Space");
 
 // Two events listened upon, 'install' and 'fetch'
 // At install local assets are stored to cache.  Removed, Xinstall non existent
 // Upon fetch, it returns to the fetch caller the cached item if there or it returns the remote page.
 
 self.addEventListener("Xinstall", async e =>{
-  console.log("SW: the 'install' Listener."); // need preserve log to se it
+  // console.log("SW: the 'install' Listener."); // need preserve log to se it
   self.skipWaiting();              // forces the waiting service worker to become the active service worker.  Can ignore returned promise (undef)
   // prevents other newly installed SW from being stuck in a wait.
-  console.log("call e.waitUntil");
+  // console.log("call e.waitUntil");
   e.waitUntil(                 // extendable event, holds sw in installing phase until tasks complete. // signature: extendableEvent.waitUntil(promise);
     saveToCache()
   );                                
-  console.log("SW: skipped waiting.");
+  // console.log("SW: skipped waiting.");
 });
 
 self.addEventListener("fetch", e => {  try {
-  console.log("SW: fetch listener, event:", e.request);
+  // console.log("SW: fetch listener, event:", e.request);
   e.respondWith(getCacheOrRemotePage(e));
    } catch(e) { console.log("Error:",e); }
 });
 
 async function saveToCache() { try {
-  console.log("SW: to cache all assets.");
+  // console.log("SW: to cache all assets.");
   var cache = await caches.open(cacheName);   // caches is a global r/o, of type CacheStorage.
   await cache.addAll(cacheAssets);            //   add is equiv to: fetch(url), put(url, response)
   console.log("SW: cached all.");
@@ -38,7 +38,7 @@ async function saveToCache() { try {
 }
 
 async function getCacheOrRemotePage(e) {
-  console.log("SW: e.respondWith.");
+  // console.log("SW: e.respondWith.");
   let resp_cached = await caches.match(e.request);              // devtools, tic offline in sws area to test.
 
   if(resp_cached){
