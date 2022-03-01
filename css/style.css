@@ -36,3 +36,31 @@ nav a {
 nav .current > a {
   color: red;
 }
+
+@-keyframes rightThenLeft {
+    0%   {margin-left:0;}
+    50%  {margin-left:100px;}
+    100% {margin-left:300px}
+}
+
+.Xmarquee {
+    width:  100px;
+    height: 100px;
+    margin-left: 300px;
+    background-color: bisque;
+    white-space: nowrap;
+    animation: rightThenLeft 4s infinite;
+}
+
+div {
+  height: 50px;
+  background: bisque;
+  position: relative;
+  animation: mymove 5s infinite;
+}
+
+@keyframes mymove {
+  from {top: 0px;}
+  50% {top: 100px !important;} /* ignored */
+  to {top: 600px;}
+}
